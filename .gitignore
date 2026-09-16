@@ -25,3 +25,4 @@ dist-ssr
 *.crdownload
 showcase_frames/
 recordings/
+.env*
