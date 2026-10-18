@@ -26,9 +26,12 @@ function computeBand(progress: number, start: number, end: number, ramp = 0.04):
   return 1;
 }
 
+const rawBase = import.meta.env.BASE_URL || '/';
+const safeBase = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+
 export const WatchCanvasScrub: React.FC<WatchCanvasScrubProps> = ({
   totalFrames = 192,
-  framePrefix = `${import.meta.env.BASE_URL}assets/frames/frame_`,
+  framePrefix = `${safeBase}assets/frames/frame_`,
   frameExtension = '.jpg',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -182,6 +185,13 @@ export const WatchCanvasScrub: React.FC<WatchCanvasScrubProps> = ({
       ref={containerRef}
       className="relative w-full h-screen bg-[#070707] overflow-hidden flex items-center justify-center select-none"
     >
+      {/* Immediate High-Res Fallback Poster */}
+      <img
+        src={`${safeBase}assets/frames/frame_0001.jpg`}
+        alt="SOUYIE Watch Master"
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
+
       {/* Hardware-Accelerated 2D Canvas */}
       <canvas
         ref={canvasRef}
